@@ -1,6 +1,7 @@
 package com.unittest.codecoverage.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.unittest.codecoverage.exceptions.PersonException;
@@ -96,5 +98,78 @@ public class PersonServiceTest {
 			.hasFieldOrPropertyWithValue("errors", expectedErrors)
 			.hasMessage(expectedMessage);
 	}
+
+	@Test
+	public void testInsert_PersonRepository_get_and_set_must_be_the_same() {
+		Person person1 = new Person();
+		person1.setName("Ali");
+		person1.setGender(Gender.M);
+
+		Person person2 = new Person();
+		person2.setName("Ahmad");
+		person2.setGender(Gender.M);
+
+		Person person3 = new Person();
+		person3.setName("Zahra");
+		person3.setGender(Gender.F);
+
+		PersonRepository personRepository = new PersonRepository();
+		personRepository.insert(person1);
+		personRepository.insert(person2);
+		personRepository.insert(person3);
+
+		assertEquals(person1, personRepository.get("Ali"));
+	}
+
+	@Test
+	public void testUpdate_PersonRepository() {
+		Person person1 = new Person();
+		person1.setName("Ali");
+		person1.setGender(Gender.M);
+
+		Person person2 = new Person();
+		person2.setName("Ahmad");
+		person2.setGender(Gender.M);
+
+		Person person3 = new Person();
+		person3.setName("Zahra");
+		person3.setGender(Gender.M);
+
+		PersonRepository personRepository = new PersonRepository();
+		personRepository.insert(person1);
+		personRepository.insert(person2);
+		personRepository.insert(person3);
+
+		person3.setGender(Gender.F);
+		repository.update(person3);
+
+		assertEquals(person3.getGender(), personRepository.get("Zahra").getGender());
+	}
+
+	@Test
+	public void testDelete_PersonRepository_after_delete_must_return_null() {
+		Person person1 = new Person();
+		person1.setName("Ali");
+		person1.setGender(Gender.M);
+
+		Person person2 = new Person();
+		person2.setName("Ahmad");
+		person2.setGender(Gender.M);
+
+		Person person3 = new Person();
+		person3.setName("Zahra");
+		person3.setGender(Gender.M);
+
+		PersonRepository personRepository = new PersonRepository();
+		personRepository.insert(person1);
+		personRepository.insert(person2);
+		personRepository.insert(person3);
+
+		repository.delete("Ali");
+
+		assertNull(repository.get("Ali"));
+	}
+
+
 
 }
