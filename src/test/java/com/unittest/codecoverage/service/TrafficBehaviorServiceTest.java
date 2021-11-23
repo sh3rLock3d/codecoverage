@@ -50,4 +50,16 @@ public class TrafficBehaviorServiceTest {
 		
 	}
 
+	@Test
+ 	public void testStreetDirectionFlow_DirectionShouldBeTheSameAfterSet() {
+
+  		Traffic currentTrafic = new Traffic();
+  		currentTrafic.setIntenseCarTraffic(true);
+
+  		currentTrafic.setStreetDirectionFlow(StreetDirectionFlow.ONE_WAY);
+
+  		assertEquals(currentTrafic.getStreetDirectionFlow(), StreetDirectionFlow.ONE_WAY);
+
+ 	}
+
 }
